@@ -47,6 +47,30 @@ $("#submitCity").click(function () {
   });
 });
 
+$("#timezone").click(function () {
+  $.ajax({
+    url: "libs/php/timezone.php",
+    type: "POST",
+    dataType: "json",
+    data: {
+      country: $("#selCountry").val(),
+    },
+    success: function (result) {
+      console.log(JSON.stringify(result));
+
+      if (result.status.name == "ok") {
+        $("#txtZone").html(result["data"]["timezoneId"]);
+        $("#txtTime").html(result["data"]["time"]);
+      }
+    },
+    error: function (jqXHR, textStatus, errorThrown) {
+      console.log("jqXHR: " + jqXHR);
+      console.log("errorStatus: " + textStatus);
+      console.log("error: " + errorThrown);
+    },
+  });
+});
+
 $("#postcode").click(function () {
   $.ajax({
     url: "libs/php/postcode.php",

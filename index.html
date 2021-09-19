@@ -58,6 +58,36 @@
     <hr />
 
     <div class="section">
+      <h2>find timezone</h2>
+      <p>select a country for timezone code and current time</p>
+
+      <select id="selCountry">
+        <option disabled selected value> -- select an option -- </option>
+        <option value="AU">Austrailia</option>
+        <option value="BE">Belgium</option>
+        <option value="CA">Cameroon</option>
+        <option value="DO">Dominican Republic</option>
+        <option value="EG">Egypt</option>
+        <option value="FR">France</option>
+        <option value="GH">Ghana</option>
+        <option value="HU">Hungary</option>
+        <option value="IN">India</option>
+        <option value="JA">Japan</option>
+      </select>
+
+      <button id="timezone">submit</button>
+
+      <div class="results-grid">
+        <div class="results-key">zone ID:</div>
+        <div id="txtZone"></div>
+        <div class="results-key">current time:</div>
+        <div id="txtTime"></div>
+      </div>
+    </div>
+
+    <hr />
+
+    <div class="section">
       <h2>Postcode Info</h2>
       <p>enter postcode for information on the area</p>
 
