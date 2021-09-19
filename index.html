@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="style.css" />
+    <title>Dougie Hawes's PHP Project</title>
+  </head>
+  <body>
+    <h1 class="title">Dougie Hawes's PHP Project</h1>
+
+    <div class="section">
+      <h2>local wikipedia</h2>
+      <p>select a city for the first event showing in wikipedia</p>
+      <p>plus the language you would like it written in</p>
+
+      <select id="selCityEvent">
+        <option disabled selected value> -- select an option -- </option>
+        <option value="BI">Birmingham</option>
+        <option value="CA">Cambridge</option>
+        <option value="EX">Exeter</option>
+        <option value="OX">Oxford</option>
+      </select>
+
+      <button id="submitCityEventBtn">submit</button>
+
+      <h4 id="eventTitle"></h4>
+      <div id="eventInfo"></div>
+      <p><i id="eventUrl"></i></p>
+    </div>
+
+    <hr />
+
+    <div class="section">
+      <h2>city-info from wikipedia</h2>
+      <p>
+        enter a city's name and see info from the first returned entry on
+        wikipedia
+      </p>
+
+      <select id="selLang">
+        <option disabled selected value> -- select an option -- </option>
+        <option value="de">Deutsch</option>
+        <option value="en">English</option>
+        <option value="es">Espanol</option>
+        <option value="fr">Francais</option>
+        <option value="it">Italiano</option>
+        <option value="ru">Pусский</option>
+        <option value="sv">Svenska</option>
+      </select>
+
+      <input type="text" id="selCity" />
+
+      <button id="submitCity">submit</button>
+
+      <div id="cityInfo"></div>
+    </div>
+
+    <hr />
+
+    <div class="section">
+      <h2>Postcode Info</h2>
+      <p>enter postcode</p>
+
+      <input type="text" id="selCode" />
+
+      <button id="postcode">submit</button>
+
+      <div class="results-grid">
+        <div class="results-key">country:</div>
+        <div id="txtCountry"></div>
+        <div class="results-key">area:</div>
+        <div id="txtArea"></div>
+        <div class="results-key">district:</div>
+        <div id="txtDistrict"></div>
+        <div class="results-key">place:</div>
+        <div id="txtPlace"></div>
+      </div>
+    </div>
+
+    <script
+      type="application/javascript"
+      src="libs/js/jquery-2.2.3.min.js"
+    ></script>
+    <script type="application/javascript" src="libs/js/script.js"></script>
+  </body>
+</html>
