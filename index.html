@@ -2,115 +2,289 @@
 <html lang="en" dir="ltr">
   <head>
     <meta charset="utf-8" />
-    <link rel="stylesheet" href="style.css" />
-    <title>Dougie Hawes's PHP Project</title>
+    <meta content="width=device-width, initial-scale=1" name="viewport" />
+    <link rel="icon" type="image/ico" href="libs/media/favicon.ico" />
+    <link rel="stylesheet" href="libs/css/bootstrap.css" />
+    <link rel="stylesheet" href="libs/css/easybutton.css" />
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"
+      integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm"
+      crossorigin="anonymous"
+    />
+    <!-- <link rel="stylesheet" href="libs/css/fontawesome.css" /> -->
+    <link rel="stylesheet" href="libs/css/leaflet.css" />
+    <script src="libs/js/slim.min.js"></script>
+    <script src="libs/js/popper.min.js"></script>
+    <script src="libs/js/bootstrap.min.js"></script>
+    <style media="screen">
+      body {
+        overflow: hidden;
+      }
+
+      ::-webkit-scrollbar {
+        width: 6px;
+        background-color: #f8f8f8;
+      }
+
+      ::-webkit-scrollbar-thumb {
+        border-radius: 10px;
+        -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
+        background-color: #666;
+      }
+
+      .toggle-menu {
+        display: none;
+        left: 35px;
+        position: absolute;
+        top: 42px;
+        width: 140px;
+        z-index: 1000;
+      }
+    </style>
+    <title>Gazetteer</title>
   </head>
   <body>
-    <h1 class="title">Dougie Hawes's PHP Project</h1>
+    <!-- navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-success px-2">
+      <div class="d-flex">
+        <img src="libs/media/pin-green.ico" height="42px" alt="" />
+        <a class="navbar-brand text-light" style="font-size: 28px;">
+          Gazetteer
+        </a>
+      </div>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-toggle="collapse"
+        data-target="#navbarNav"
+        aria-controls="navbarNav"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse flex-row-reverse" id="navbarNav">
+        <div class="navbar-nav d-flex flex-row d-flex">
+          <div class="nav-item dropdown mx-1">
+            <a
+              class="nav-link dropdown-toggle text-light d-block settings-toggle"
+              href="#"
+              role="button"
+            >
+              <i class="fas fa-cog"></i>
+            </a>
+            <div class="bg-light p-2 toggle-menu" id="settings">
+              <label for="floatingInputValue">Select Language</label>
+              <select class="form-select" id="selLang">
+                <option value="de">Deutsch</option>
+                <option value="en" selected="selected">English</option>
+                <option value="es">Espanol</option>
+                <option value="fr">Francais</option>
+                <option value="it">Italiano</option>
+              </select>
+              <label for="floatingInputValue">Select Units</label>
+              <select class="form-select" id="selUnit">
+                <option value="imperial">Imperial</option>
+                <option value="metric" selected="selected">Metric</option>
+                <option value="standard">Standard</option>
+              </select>
+            </div>
+          </div>
+          <div class="nav-item dropdown mx-1">
+            <a
+              class="nav-link dropdown-toggle text-light d-block controls-toggle"
+              href="#"
+              id="dropdownToggle"
+              role="button"
+            >
+              <i class="fas fa-mouse-pointer"></i>
+            </a>
+            <div class="bg-light p-2 toggle-menu" id="controls">
+              <dl class="row">
+                <dt><small>tap/click map</small></dt>
+                <dd class="text-right">
+                  <small
+                    >make pin<img
+                      src="libs/media/pin-green.ico"
+                      height="18px"
+                      alt="green pin"
+                  /></small>
+                </dd>
+                <dt><small>tap/click pin</small></dt>
+                <dd>
+                  <small>get area details</small>
+                </dd>
+                <dt><small>hold/right-click pin</small></dt>
+                <dd>
+                  <small>remove pin</small>
+                </dd>
+              </dl>
+            </div>
+          </div>
+          <div class="nav-item dropdown mx-1">
+            <a
+              class="nav-link dropdown-toggle text-light d-block countries-toggle"
+              href="#"
+              role="button"
+            >
+              <i class="fas fa-globe-europe"></i>
+            </a>
+            <div class="bg-light p-2 toggle-menu" id="countries">
+              <select class="form-select" id="selLang">
+                <option value="de">Deutsch</option>
+                <option value="en" selected="selected">English</option>
+                <option value="es">Espanol</option>
+                <option value="fr">Francais</option>
+                <option value="it">Italiano</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+    </nav>
 
-    <div class="section">
-      <h2>local wikipedia</h2>
-      <p>select a city for the first event showing in wikipedia</p>
-      <p>plus the language you would like it written in</p>
+    <!-- map container -->
+    <div class="min-vh-100 min-vw-100 bg-success" id="map"></div>
 
-      <select id="selCityEvent">
-        <option disabled selected value> -- select an option -- </option>
-        <option value="BI">Birmingham</option>
-        <option value="CA">Cambridge</option>
-        <option value="EX">Exeter</option>
-        <option value="OX">Oxford</option>
-      </select>
-
-      <button id="submitCityEventBtn">submit</button>
-
-      <h4 id="eventTitle"></h4>
-      <div id="eventInfo"></div>
-      <p><i id="eventUrl"></i></p>
-    </div>
-
-    <hr />
-
-    <div class="section">
-      <h2>city-info from wikipedia</h2>
-      <p>
-        enter a city's name and see info from the first returned entry on
-        wikipedia
-      </p>
-
-      <select id="selLang">
-        <option disabled selected value> -- select an option -- </option>
-        <option value="de">Deutsch</option>
-        <option value="en">English</option>
-        <option value="es">Espanol</option>
-        <option value="fr">Francais</option>
-        <option value="it">Italiano</option>
-        <option value="ru">Pусский</option>
-        <option value="sv">Svenska</option>
-      </select>
-
-      <input type="text" id="selCity" />
-
-      <button id="submitCity">submit</button>
-
-      <div id="cityInfo"></div>
-    </div>
-
-    <hr />
-
-    <div class="section">
-      <h2>find timezone</h2>
-      <p>select a country for timezone code and current time</p>
-
-      <select id="selCountry">
-        <option disabled selected value> -- select an option -- </option>
-        <option value="AU">Austrailia</option>
-        <option value="BE">Belgium</option>
-        <option value="CA">Cameroon</option>
-        <option value="DO">Dominican Republic</option>
-        <option value="EG">Egypt</option>
-        <option value="FR">France</option>
-        <option value="GH">Ghana</option>
-        <option value="HU">Hungary</option>
-        <option value="IN">India</option>
-        <option value="JA">Japan</option>
-      </select>
-
-      <button id="timezone">submit</button>
-
-      <div class="results-grid">
-        <div class="results-key">zone ID:</div>
-        <div id="txtZone"></div>
-        <div class="results-key">current time:</div>
-        <div id="txtTime"></div>
+    <!-- modal -->
+    <div
+      class="position-absolute w-100"
+      id="modal"
+      style="display: none; top: 60px; z-index: 1001;"
+    >
+      <div class="modal-dialog" role="document" style="z-index: 1000;">
+        <div class="modal-content">
+          <div
+            class="modal-body p-1"
+            style="max-height: 490px; overflow-y: scroll;"
+          >
+            <table class="table">
+              <tbody>
+                <thead>
+                  <tr>
+                    <th scope="col" colspan="4">LOCATION</th>
+                  </tr>
+                </thead>
+                <tr>
+                  <td colspan="2" id="country"></td>
+                  <td colspan="2" id="capital"></td>
+                </tr>
+                <tr>
+                  <th>Pop</th>
+                  <td id="population"></td>
+                  <th>Cur</th>
+                  <td id="currency"></td>
+                </tr>
+              </tbody>
+            </table>
+            <table class="table">
+              <tbody>
+                <thead>
+                  <tr>
+                    <th scope="col" colspan="4">WEATHER</th>
+                  </tr>
+                </thead>
+                <tr>
+                  <td id="weatherMain" colspan="2"></td>
+                  <td id="weatherDescription" colspan="2"></td>
+                </tr>
+                <thead>
+                  <tr>
+                    <th colspan="2">temp</th>
+                    <th>min</th>
+                    <th>max</th>
+                  </tr>
+                </thead>
+                <tr>
+                  <td id="temp" colspan="2"></td>
+                  <td id="tempMin"></td>
+                  <td id="tempMax"></td>
+                </tr>
+                <tr>
+                  <th scope="row">wind-speed</th>
+                  <td id="windSpeed"></td>
+                  <th scope="row">wind-direction</th>
+                  <td id="windDirection"></td>
+                </tr>
+              </tbody>
+            </table>
+            <table class="table">
+              <tbody>
+                <thead>
+                  <tr>
+                    <th scope="col">WIKIPEDIA</th>
+                  </tr>
+                </thead>
+                <tr id="wikipediaLinks"></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-dismiss="modal"
+              id="modalClose"
+            >
+              Close
+            </button>
+          </div>
+        </div>
       </div>
     </div>
 
-    <hr />
-
-    <div class="section">
-      <h2>Postcode Info</h2>
-      <p>enter postcode for information on the area</p>
-
-      <input type="text" id="selCode" />
-
-      <button id="postcode">submit</button>
-
-      <div class="results-grid">
-        <div class="results-key">country:</div>
-        <div id="txtCountry"></div>
-        <div class="results-key">area:</div>
-        <div id="txtArea"></div>
-        <div class="results-key">district:</div>
-        <div id="txtDistrict"></div>
-        <div class="results-key">place:</div>
-        <div id="txtPlace"></div>
-      </div>
+    <!-- details element -->
+    <div
+      class="position-absolute bottom-0 end-0 bg-light my-5 px-2 py-1"
+      id="details"
+      style="display: none; z-index: 1000;"
+    >
+      <table>
+        <tr>
+          <th class="text-center">zoom-level</th>
+        </tr>
+        <tr>
+          <td class="text-center" id="zoomLevel"></td>
+        </tr>
+        <tr>
+          <th class="text-center">map-centre</th>
+        </tr>
+        <tr>
+          <td class="text-center" id="mapCentre"></td>
+        </tr>
+        <tr>
+          <th class="text-center">cursor-location</th>
+        </tr>
+        <tr>
+          <td class="text-center" id="mouseLocation"></td>
+        </tr>
+      </table>
     </div>
 
-    <script
-      type="application/javascript"
-      src="libs/js/jquery-2.2.3.min.js"
-    ></script>
-    <script type="application/javascript" src="libs/js/script.js"></script>
+    <!-- to-top element -->
+    <div
+      class="position-absolute bottom-0 start-50 bg-light p-2"
+      id="error"
+      style="transform: translatex(-50%); z-index: 1000;"
+    >
+      <a class="text-success" href="#top">to-top</a>
+    </div>
+
+    <!-- error element -->
+    <div
+      class="position-absolute top-50 start-50 bg-light text-danger"
+      id="error"
+      style="transform: translatex(-50%); z-index: 1000;"
+    ></div>
+
+    <!-- javascript imports -->
+    <div>
+      <script type="text/javascript" src="libs/js/jquery.min.js"></script>
+      <script type="text/javascript" src="libs/js/leaflet.js"></script>
+      <script type="text/javascript" src="libs/js/easybutton.js"></script>
+      <script type="text/javascript" src="libs/data/countries.js"></script>
+      <script type="text/javascript" src="libs/js/script.js"></script>
+    </div>
   </body>
 </html>
